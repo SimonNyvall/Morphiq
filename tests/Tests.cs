@@ -1,65 +1,80 @@
-﻿using tests.Data;
+﻿using Morphiq;
+using Morphiq.Attributes;
+using tests.Data;
 
 namespace tests;
 
 public class Tests
 {
     [Test]
-    public void Basic()
+    public async Task Given_Type_When_MorphTo_Then_PropertiesAreMapped()
     {
-        Console.WriteLine("This is a basic test");
+        var fromObj = new DataClass.FromClass
+        {
+            Property1 = "Hello",
+            Property2 = 123,
+            Property3 = true
+        };
+
+        var toObj = fromObj.MorphTo<DataClass.ToClass>();
+
+        await Assert.That(toObj).IsNotNull();
+        await Assert.That(toObj).IsTypeOf<DataClass.ToClass>();
+        await Assert.That(toObj.Property1).IsEqualTo("Hello");
+        await Assert.That(toObj.Property2).IsEqualTo(123);
+        await Assert.That(toObj.Property3).IsEqualTo(true);
     }
 
     [Test]
-    [Arguments(1, 2, 3)]
-    [Arguments(2, 3, 5)]
-    public async Task DataDrivenArguments(int a, int b, int c)
+    public async Task Given_TypeWithNonMathingName_When_MorphTo_Then_PropertiesAreNotCorrectlyMapped()
     {
-        Console.WriteLine("This one can accept arguments from an attribute");
-
-        var result = a + b;
-
-        await Assert.That(result).IsEqualTo(c);
+        var fromObj = new TestClass
+        {
+            PropertyMissMatch = "Hello",
+            Property2 = 123,
+            Property3 = true
+        };
+        
+        var toObj = fromObj.MorphTo<DataClass.ToClass>();
+        
+        await Assert.That(toObj).IsNotNull();
+        await Assert.That(toObj).IsTypeOf<DataClass.ToClass>();
+        await Assert.That(toObj.Property1).IsEqualTo(string.Empty);
+        await Assert.That(toObj.Property2).IsEqualTo(123);
+        await Assert.That(toObj.Property3).IsEqualTo(true);
     }
 
     [Test]
-    [MethodDataSource(nameof(DataSource))]
-    public async Task MethodDataSource(int a, int b, int c)
+    public async Task Given_TypeWithNonMatchingName_When_MorphTo_Then_PropertiesAreMappen_When_AttributeApplied()
     {
-        Console.WriteLine("This one can accept arguments from a method");
-
-        var result = a + b;
-
-        await Assert.That(result).IsEqualTo(c);
+        var fromObj = new TestClassWithAttribute
+        {
+            PropertyMissMatch = "Hello",
+            Property2 = 123,
+            Property3 = true
+        };
+        
+        var toObj = fromObj.MorphTo<DataClass.ToClass>();
+        
+        await Assert.That(toObj).IsNotNull();
+        await Assert.That(toObj).IsTypeOf<DataClass.ToClass>();
+        await Assert.That(toObj.Property1).IsEqualTo("Hello");
+        await Assert.That(toObj.Property2).IsEqualTo(123);
+        await Assert.That(toObj.Property3).IsEqualTo(true);
     }
 
-    [Test]
-    [ClassDataSource<DataClass>]
-    [ClassDataSource<DataClass>(Shared = SharedType.PerClass)]
-    [ClassDataSource<DataClass>(Shared = SharedType.PerAssembly)]
-    [ClassDataSource<DataClass>(Shared = SharedType.PerTestSession)]
-    public void ClassDataSource(DataClass dataClass)
+    private class TestClass
     {
-        Console.WriteLine("This test can accept a class, which can also be pre-initialised before being injected in");
-
-        Console.WriteLine("These can also be shared among other tests, or new'd up each time, by using the `Shared` property on the attribute");
+        public string PropertyMissMatch { get; set; } = string.Empty;
+        public int Property2 { get; set; }
+        public bool Property3 { get; set; }
     }
 
-    [Test]
-    [DataGenerator]
-    public async Task CustomDataGenerator(int a, int b, int c)
+    private class TestClassWithAttribute
     {
-        Console.WriteLine("You can even define your own custom data generators");
-
-        var result = a + b;
-
-        await Assert.That(result).IsEqualTo(c);
-    }
-
-    public static IEnumerable<(int a, int b, int c)> DataSource()
-    {
-        yield return (1, 1, 2);
-        yield return (2, 1, 3);
-        yield return (3, 1, 4);
+        [MorphPropertyName("Property1")]
+        public string PropertyMissMatch { get; set; } = string.Empty;
+        public int Property2 { get; set; }
+        public bool Property3 { get; set; }
     }
 }

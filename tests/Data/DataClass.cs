@@ -13,4 +13,18 @@ public class DataClass : IAsyncInitializer, IAsyncDisposable
     {
         await Console.Out.WriteLineAsync("And when the class is finished with, we can clean up any resources.");
     }
+
+    public class FromClass
+    {
+        public string Property1 { get; set; } = string.Empty;
+        public int Property2 { get; set; }
+        public bool Property3 { get; set; } 
+    }
+    
+    public class ToClass
+    {
+        public string Property1 { get; set; } = string.Empty;
+        public int Property2 { get; set; }
+        public bool Property3 { get; set; } 
+    }
 }
