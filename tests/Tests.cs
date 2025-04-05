@@ -63,6 +63,25 @@ public class Tests
         await Assert.That(toObj.Property3).IsEqualTo(true);
     }
 
+    [Test]
+    public async Task Given_TypeWithNonMatchingName_When_MorphTo_Then_PropertiesAreMapped_When_Configuration()
+    {
+        var fromObj = new TestClass
+        {
+            PropertyMissMatch = "Hello",
+            Property2 = 123,
+            Property3 = true
+        };
+        
+        var toObj = fromObj.MorphTo<TestClassWithAttribute>(x => x.PropertyMissMatch = "Hello World");
+        
+        await Assert.That(toObj).IsNotNull();
+        await Assert.That(toObj).IsTypeOf<TestClassWithAttribute>();
+        await Assert.That(toObj.PropertyMissMatch).IsEqualTo("Hello World");
+        await Assert.That(toObj.Property2).IsEqualTo(123);
+        await Assert.That(toObj.Property3).IsEqualTo(true);
+    }
+
     private class TestClass
     {
         public string PropertyMissMatch { get; set; } = string.Empty;

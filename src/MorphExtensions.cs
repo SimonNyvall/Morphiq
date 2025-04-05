@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using Morphiq.Attributes;
 
@@ -6,11 +7,11 @@ namespace Morphiq
 {
     public static class MorphExtensions
     {
-        public static ToType MorphTo<ToType>(this object fromObj) where ToType : new()
+        public static T MorphTo<T>(this object fromObject, Action<T> configuration = null) where T : class, new()
         {
-            var toObject = new ToType();
-            var fromProperties = fromObj.GetType().GetProperties();
-            var toProperties = typeof(ToType).GetProperties();
+            var toObject = new T();
+            var fromProperties = fromObject.GetType().GetProperties();
+            var toProperties = typeof(T).GetProperties();
 
             foreach (var fromProperty in fromProperties)
             {
@@ -26,9 +27,11 @@ namespace Morphiq
 
                 if (toProperty != null && toProperty.CanWrite)
                 {
-                    toProperty.SetValue(toObject, fromProperty.GetValue(fromObj));
+                    toProperty.SetValue(toObject, fromProperty.GetValue(fromObject));
                 }
             }
+            
+            configuration?.Invoke((toObject));
 
             return toObject;
         }
