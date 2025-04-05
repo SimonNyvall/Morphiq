@@ -2,11 +2,12 @@
 
 namespace Morphiq.Attributes
 {
-    public class MorphPropertyNameAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Property)]
+    public class MorphToPropertyAttribute : Attribute
     {
         public string TargetName { get; }
 
-        public MorphPropertyNameAttribute(string targetName)
+        public MorphToPropertyAttribute(string targetName)
         {
             TargetName = targetName;
         }

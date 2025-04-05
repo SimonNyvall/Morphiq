@@ -16,7 +16,7 @@ namespace Morphiq
             foreach (var fromProperty in fromProperties)
             {
                 var targetName = fromProperty.Name;
-                var attribute = fromProperty.GetCustomAttribute<MorphPropertyNameAttribute>();
+                var attribute = fromProperty.GetCustomAttribute<MorphToPropertyAttribute>();
 
                 if (attribute != null && !string.IsNullOrEmpty(attribute.TargetName))
                 {

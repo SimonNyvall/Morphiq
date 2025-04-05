@@ -91,7 +91,7 @@ public class Tests
 
     private class TestClassWithAttribute
     {
-        [MorphPropertyName("Property1")]
+        [MorphToProperty("Property1")]
         public string PropertyMissMatch { get; set; } = string.Empty;
         public int Property2 { get; set; }
         public bool Property3 { get; set; }
