@@ -1,7 +1,36 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net8.0;net9.0</TargetFrameworks>
+    <Title>Morphiq</Title>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <None Include="Morphiq128x128.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="../README.md" Pack="true" PackagePath="">
+      <Link>Properties\README.md</Link>
+    </None>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="..\.github\workflows\build.yml">
+      <Link>Properties\workflows\build.yml</Link>
+    </Content>
+    <Content Include="..\.github\workflows\publish.yml">
+      <Link>Properties\workflows\publish.yml</Link>
+    </Content>
+  </ItemGroup>
+  
+  <PropertyGroup>
+    <PackageId>Morphiq</PackageId>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Authors>NeotericSh - Simon Nyvall</Authors>
+    <Description>Morphiq: Attribute-based object mapping and transformation.</Description>
+    <RepositoryUrl>https://github.com/SimonNyvall/Morphiq</RepositoryUrl>
+    <PackageTags>c# mapping casting dto response</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>Morphiq128x128.png</PackageIcon>
   </PropertyGroup>
 
 </Project>
