@@ -27,20 +27,25 @@ namespace Morphiq
 
                 if (toProperty != null && toProperty.CanWrite)
                 {
-                    if (toProperty.GetCustomAttribute<IgnorePropertyAttribute>() != null)
+                    if (fromProperty.GetCustomAttribute<IgnorePropertyAttribute>() != null ||
+                        toProperty.GetCustomAttribute<IgnorePropertyAttribute>() != null)
                     {
                         continue;
                     }
 
-                    var customMappingAttribute = toProperty.GetCustomAttribute<MorphToCustomMappingAttribute>();
+                    var customMappingAttribute = fromProperty.GetCustomAttribute<MorphToCustomMappingAttribute>() ??
+                                                 toProperty.GetCustomAttribute<MorphToCustomMappingAttribute>();
                     if (customMappingAttribute != null)
                     {
-                        var method = typeof(T).GetMethod(customMappingAttribute.MappingMethodName,
+                        var method = fromProperty.DeclaringType.GetMethod(customMappingAttribute.MappingMethodName,
+                            BindingFlags.NonPublic | BindingFlags.Instance) ??
+                                     toProperty.DeclaringType.GetMethod(customMappingAttribute.MappingMethodName,
                             BindingFlags.NonPublic | BindingFlags.Instance);
 
                         if (method != null)
                         {
-                            var value = method.Invoke(toObject, new[] { fromProperty.GetValue(fromObject) });
+                            var targetInstance = method.DeclaringType == fromProperty.DeclaringType ? fromObject : toObject;
+                            var value = method.Invoke(targetInstance, new[] { fromProperty.GetValue(fromObject) });
                             toProperty.SetValue(toObject, value);
                             continue;
                         }
@@ -49,7 +54,8 @@ namespace Morphiq
                     var valueToSet = fromProperty.GetValue(fromObject);
                     if (valueToSet == null)
                     {
-                        var defaultValueAttribute = toProperty.GetCustomAttribute<MorphToDefaultValueAttribute>();
+                        var defaultValueAttribute = fromProperty.GetCustomAttribute<MorphToDefaultValueAttribute>() ??
+                                                    toProperty.GetCustomAttribute<MorphToDefaultValueAttribute>();
                         if (defaultValueAttribute != null)
                         {
                             valueToSet = defaultValueAttribute.DefaultValue;
