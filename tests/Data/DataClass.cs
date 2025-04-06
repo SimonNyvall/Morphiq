@@ -16,7 +16,7 @@ public class DataClass : IAsyncInitializer, IAsyncDisposable
 
     public class FromClass
     {
-        public string Property1 { get; set; } = string.Empty;
+        public string? Property1 { get; set; } = string.Empty;
         public int Property2 { get; set; }
         public bool Property3 { get; set; } 
     }
