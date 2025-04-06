@@ -1,5 +1,7 @@
 # Morphiq
 
+[![Build & Test](https://github.com/SimonNyvall/Morphiq/actions/workflows/build.yml/badge.svg)](https://github.com/SimonNyvall/Morphiq/actions/workflows/build.yml)
+
 ## Premise
 Morphiq is a versatile tool that enhances object mapping and transformation in C# using attribute-based configurations. It simplifies the process of converting objects between different types, making it ideal for scenarios such as data transfer objects (DTOs), view models, and response objects in web APIs.
 
