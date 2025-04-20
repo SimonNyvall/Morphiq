@@ -1,6 +1,19 @@
-# Morphiq
-
+```sh
+ /$$      /$$                               /$$       /$$          
+| $$$    /$$$                              | $$      |__/          
+| $$$$  /$$$$  /$$$$$$   /$$$$$$   /$$$$$$ | $$$$$$$  /$$  /$$$$$$ 
+| $$ $$/$$ $$ /$$__  $$ /$$__  $$ /$$__  $$| $$__  $$| $$ /$$__  $$
+| $$  $$$| $$| $$  \ $$| $$  \__/| $$  \ $$| $$  \ $$| $$| $$  \ $$
+| $$\  $ | $$| $$  | $$| $$      | $$  | $$| $$  | $$| $$| $$  | $$
+| $$ \/  | $$|  $$$$$$/| $$      | $$$$$$$/| $$  | $$| $$|  $$$$$$$
+|__/     |__/ \______/ |__/      | $$____/ |__/  |__/|__/ \____  $$
+                                 | $$                          | $$
+                                 | $$                          | $$
+                                 |__/                          |__/
+```
 [![Build & Test](https://github.com/SimonNyvall/Morphiq/actions/workflows/build.yml/badge.svg)](https://github.com/SimonNyvall/Morphiq/actions/workflows/build.yml)
+![GitHub License](https://img.shields.io/github/license/SimonNyvall/Morphiq?label=License)
+![NuGet Downloads](https://img.shields.io/nuget/dt/Morphiq?logo=nuget&logoColor=blue&label=Downloads)
 
 ## Premise
 Morphiq is a versatile tool that enhances object mapping and transformation in C# using attribute-based configurations. It simplifies the process of converting objects between different types, making it ideal for scenarios such as data transfer objects (DTOs), view models, and response objects in web APIs.
@@ -152,6 +165,11 @@ Console.WriteLine(dto.Age);  // Output: 30
 ```
 
 ## Installation
+Run the following command in your project directory:
+
+```sh
+dotnet add package Morphiq --version 0.1.0
+```
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details.
